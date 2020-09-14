@@ -203,7 +203,7 @@ public struct Contacts {
     }
 }
 
-
+import CoreTelephony
 public struct Telephone {
     
     // PRAGMA MARK: - CoreTelephonyCheck
@@ -212,7 +212,7 @@ public struct Telephone {
     /// - parameter completionHandler: Returns Bool.
     public static func isCapableToCall(completionHandler: @escaping (_ result: Bool) -> ()) {
         if UIApplication.shared.canOpenURL(NSURL(string: "tel://")! as URL) {
-            let networkStatus = CTTelephonyNetworkInfo()
+            let networkStatus = CoreTelephony.CTTelephonyNetworkInfo()
             // Check if iOS Device supports phone calls
             // User will get an alert error when they will try to make a phone call in airplane mode
             if let info = networkStatus.serviceSubscriberCellularProviders,
