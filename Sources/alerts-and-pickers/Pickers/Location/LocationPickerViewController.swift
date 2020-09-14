@@ -107,7 +107,6 @@ public final class LocationPickerViewController: UIViewController {
 		
 		$0.searchResultsUpdater = self
         $0.searchBar.delegate = self
-        $0.dimsBackgroundDuringPresentation = true
         /// true if search bar in tableView header
 		$0.hidesNavigationBarDuringPresentation = true
         $0.searchBar.placeholder = searchBarPlaceholder

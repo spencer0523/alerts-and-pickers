@@ -212,15 +212,24 @@ public struct Telephone {
     /// - parameter completionHandler: Returns Bool.
     public static func isCapableToCall(completionHandler: @escaping (_ result: Bool) -> ()) {
         if UIApplication.shared.canOpenURL(NSURL(string: "tel://")! as URL) {
+            let networkStatus = CTTelephonyNetworkInfo()
             // Check if iOS Device supports phone calls
             // User will get an alert error when they will try to make a phone call in airplane mode
-            if let mnc: String = CTTelephonyNetworkInfo().subscriberCellularProvider?.mobileNetworkCode, !mnc.isEmpty {
-                // iOS Device is capable for making calls
-                completionHandler(true)
-            } else {
-                // Device cannot place a call at this time. SIM might be removed
-                completionHandler(false)
+            if let info = networkStatus.serviceSubscriberCellularProviders,
+               let carrier = info["serviceSubscriberCellularProvider"] {
+                //work with carrier object
+                if carrier.mobileNetworkCode != nil {
+                    if !carrier.mobileNetworkCode!.isEmpty{
+                        // iOS Device is capable for making calls
+                        completionHandler(true)
+                    } else {
+                        // Device cannot place a call at this time. SIM might be removed
+                        completionHandler(false)
+                    }
+                }
+                !carrier.mobileNetworkCode!.isEmpty
             }
+            
         } else {
             // iOS Device is not capable for making calls
             completionHandler(false)
